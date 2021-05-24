@@ -5,11 +5,34 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"/>
                 <link  rel ="stylesheet" href ="dist/style.min.css">
+                <script src ="https://unpkg.com/axios/dist/axios.min.js"></script>
                 <title> Img-ify</title>
             </head>
             <body id ="body">
-                <header id ="header"></header>
-                <div id="sidebar">
+                <header id ="header">
+                    <h1> Img-ify</h1>
+                </header>
+                <div id ="list">
+                    <div class ="allEmails">
+                        <div class ="linkedEmails"> 
+                            <h3> email@email.com</h3>
+                            <ul class ="linkedImages" >
+                                <li><img src ="https://picsum.photos/id/20/50"></li>
+                                <li><img src ="https://picsum.photos/id/20/50"></li>
+                                <li><img src ="https://picsum.photos/id/20/50"></li>
+                            </ul>
+                        </div>
+                        <div class ="linkedEmails"> 
+                            <h3> email@email.com</h3>
+                            <ul class ="linkedImages" >
+                                <li><img src ="https://picsum.photos/id/20/50"></li>
+                                <li><img src ="https://picsum.photos/id/20/50"></li>
+                                <li><img src ="https://picsum.photos/id/20/50"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="sidebar" class ="shadow">
                     <div class = buttons>
                         <button id ="newImage">
                             <span>new image</span>
@@ -17,13 +40,19 @@
                         <button id = "linkToEmail">
                             <span>link to email</span>
                         </button>
-                        <form name = form>  
-                            <input type="email" id = "email" name ="email">
-                            
-                        </form>
-                        <button>
-                            <input type="submit" name ="submit" value="link email" onclick="ValidateEmail(document.form.email)">
+                        <button id = "viewEmails">
+                            <span>View emails</span>
                         </button>
+                        <div id ="form"> 
+                            <form name = form1>
+                                <label for ="emailBox" >Email:</label>  
+                                <input id ="emailBox" type="text" name ="text1">
+                            </form>
+                            <button type = "button" onclick="validateAndLink(document.form1.text1)">
+                                <!-- <input type="button" name ="submit" > -->
+                                <span>Link Image</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div id ="shownImage">
@@ -31,7 +60,11 @@
                 </div>
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <script src ="dist/app.es6.min.js"></script>
+                <!-- <script src ="dist/app.es6.min.js"></script> -->
+                <script src ="src/app.js"></script>
+                <!-- <script src ="src/dev-saved/app.es5.js"></script> -->
+                <!-- <script src ="dist/app.es5.min.js"></script> -->
+
             </body>
         </html>
         

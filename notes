@@ -1,9 +1,15 @@
 [ ] Image can be assigned to an email address
-[ ] webpage should contain an input field that accepts an email address which is validated
+[ x ] webpage should contain an input field that accepts an email address which is validated
 [ ] On submission the image is linked to the email address
 [ ] A new image is displayed which can be linked to a new email address or a previous one
-[ ] If the email address has multiple linked imaged - display this.
+[ ] If the email address has multiple linked images - display this.
 
 https://unsplash.com/documentation or https://picsum.photos/ and displays on a web page.
 
 https://youtu.be/LYbt50dhTko
+
+
+21st to-do
+[ x ] Sort out button styling (Hover / active)
+[ x ] get New Image to work (Need Axios) without reloading browser.
+[ ] be able to create and view emails that have been added to the site 
