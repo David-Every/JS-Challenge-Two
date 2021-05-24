@@ -1,13 +1,15 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * Number Randomiser and getting image (Update to promise / Axios)
  */
-// var idNum;// =num; // random num between minNo and maxNo
-// console.log(WH[1]);
-$("body").css("margin", "0"); // $body.css("margin","0")
-// getdata();
-
+$("body").css("margin", "0");
 /**
  * Set Image Size -
  * - Detect current Screen width
@@ -77,9 +79,8 @@ function validateAndLink(inputText) {
       firstemail = false;
       savedEmail = email;
       email = null;
-      return createnew(savedEmail);
-    } // else{
-
+      return setTimeout(createnew(savedEmail), toList, 100); //createnew(savedEmail)
+    }
     /**
      * if this is not the 1st array check to see if there is an array with the same email
      * as what is currently in the input value
@@ -100,8 +101,9 @@ function validateAndLink(inputText) {
       if (emailInfo.length === j) {
         savedEmail = email;
         email = null;
-        j = 0;
-        return createnew(savedEmail);
+        j = 0; // return createnew(savedEmail);
+
+        return setTimeout(createnew(savedEmail), toList(), 100); //createnew(savedEmail)
       }
     }
   }
@@ -111,10 +113,21 @@ function validateAndLink(inputText) {
 
 var emailCheck = 1;
 var firstemail = true;
-var emailInfo = [];
+var emailInfo = [{
+  id: 0,
+  email: "EmailAddress1@email.com",
+  link1: "link1"
+}, {
+  id: 1,
+  email: "EmailAddress2@email.com",
+  link1: "link1"
+}, {
+  id: 2,
+  email: "EmailAddress3@email.com",
+  link1: "link1"
+}];
 
 function createnew(savedEmail) {
-  // console.log("%c Creating new array","color:green");
   emailInfo.push(["".concat(savedEmail), "".concat(currentImage)]);
   emailCheck = emailInfo.length;
   getdata();
@@ -124,7 +137,6 @@ function ValidateEmail(inputText) {
   var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   if (inputText.value.match(mailformat)) {
-    // alert("Valid email address!");
     document.form1.text1.focus();
     return true;
   } else {
@@ -159,5 +171,24 @@ $("#viewEmails").on("click", function () {
 //#region toHtmlList
 
 function toList() {
-  return "\n        <div class =\"linkedEmails\"> \n        <h3> ".concat(linkThisEmail, "</h3>\n        <ul class =\"linkedImages\" >\n            <li><img src =\"").concat(linkThisImage, "\"></li>\n        </ul>\n    </div>\n    ");
+  console.log("To List");
 } //#endregion
+
+/**
+ * Convert array to objects 
+ * https://dev.to/afewminutesofcode/how-to-convert-an-array-into-an-object-in-javascript-25a4#:~:text=To%20convert%20an%20array%20into%20an%20object%20we%20will%20create,key%20we%20have%20passed%20in.
+ */
+
+
+var convertArrayToObject = function convertArrayToObject(array, key) {
+  var initialValue = {};
+  return array.reduce(function (obj, item) {
+    return _objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, item[key], item));
+  }, initialValue);
+};
+
+console.log(convertArrayToObject(emailInfo, 'id'));
+/**
+ * use proxy on object to check it.
+ * https://www.javascripttutorial.net/es6/javascript-proxy/
+ */

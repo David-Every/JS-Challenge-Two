@@ -3,16 +3,7 @@
  * Number Randomiser and getting image (Update to promise / Axios)
  */
 
-
-// var idNum;// =num; // random num between minNo and maxNo
-
-// console.log(WH[1]);
-
 $("body").css("margin", "0");
-// $body.css("margin","0")
-
-
-// getdata();
 
 /**
  * Set Image Size -
@@ -82,10 +73,8 @@ function validateAndLink(inputText){
             firstemail = false;
             savedEmail = email;
             email = null;
-            return createnew(savedEmail)
+            return setTimeout(createnew(savedEmail),toList,100);//createnew(savedEmail)
         }
-        // else{
-
         /**
          * if this is not the 1st array check to see if there is an array with the same email
          * as what is currently in the input value
@@ -98,27 +87,31 @@ function validateAndLink(inputText){
                 email = null;
                 getdata();
                 return emailInfo[i].push(currentImage);
-            }else{
-                j++;
-            }
+            }else { j++; }
 
             if(emailInfo.length === j ){
                 savedEmail = email;
                 email = null;
                 j = 0;
-                return createnew(savedEmail);
+                // return createnew(savedEmail);
+                return setTimeout(createnew(savedEmail),toList(),100);//createnew(savedEmail)
             }
-        } 
+        }
     };
 }
 var emailCheck = 1;
 var firstemail = true;
 
-var emailInfo = [
-]
+var emailInfo =
+    [
+        {id: 0, email: "EmailAddress1@email.com", link1: "link1"},
+        {id: 1, email: "EmailAddress2@email.com", link1: "link1"},
+        {id: 2, email: "EmailAddress3@email.com", link1: "link1"}
+    ];
+
+
 
 function createnew(savedEmail){
-    // console.log("%c Creating new array","color:green");
     emailInfo.push([`${savedEmail}`,`${currentImage}`]);
     emailCheck = emailInfo.length ;
     getdata();
@@ -127,12 +120,10 @@ function createnew(savedEmail){
 function ValidateEmail(inputText){
     var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(inputText.value.match(mailformat)){
-        // alert("Valid email address!");
         document.form1.text1.focus();
         return true;
 
     }else{
-        
         alert("You have entered an invalid email address!");
         document.form1.text1.focus();
         return false;
@@ -162,14 +153,28 @@ $("#viewEmails").on("click", () => {
 //#endregion
 
 //#region toHtmlList
+
 function toList(){
-    return `
-        <div class ="linkedEmails"> 
-        <h3> ${linkThisEmail}</h3>
-        <ul class ="linkedImages" >
-            <li><img src ="${linkThisImage}"></li>
-        </ul>
-    </div>
-    `
+    console.log("To List");
 }
 //#endregion
+
+/**
+ * Convert array to objects 
+ * https://dev.to/afewminutesofcode/how-to-convert-an-array-into-an-object-in-javascript-25a4#:~:text=To%20convert%20an%20array%20into%20an%20object%20we%20will%20create,key%20we%20have%20passed%20in.
+ */
+const convertArrayToObject = (array, key) =>{
+    const initialValue = {};
+    return array.reduce((obj,item)=>{
+        return{
+            ...obj,
+            [item[key]]:item,
+        };
+    },initialValue);
+};
+
+console.log(convertArrayToObject(emailInfo,'id',),);
+/**
+ * use proxy on object to check it.
+ * https://www.javascripttutorial.net/es6/javascript-proxy/
+ */
