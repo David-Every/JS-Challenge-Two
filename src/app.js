@@ -27,6 +27,8 @@ $("body").css("margin", "0");
     ["500/400"],//Large
     ["300/200"],//med
     ["200/100"] //small
+    ["50"]
+
 ]
 let x = 0;
 
@@ -114,11 +116,9 @@ function validateAndLink(inputText){
 var emailCheck = 1;
 var firstemail = true;
 
-var emailInfo = [
-]
+var emailInfo = [];
 
 function createnew(savedEmail){
-    // console.log("%c Creating new array","color:green");
     emailInfo.push([`${savedEmail}`,`${currentImage}`]);
     emailCheck = emailInfo.length ;
     getdata();
@@ -127,7 +127,6 @@ function createnew(savedEmail){
 function ValidateEmail(inputText){
     var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(inputText.value.match(mailformat)){
-        // alert("Valid email address!");
         document.form1.text1.focus();
         return true;
 
@@ -143,33 +142,60 @@ $("#linkToEmail").on("click",()=>{
     if(!showing){
         showing = true;
         $("#form").css("display","block");
+
     }else{
         showing = false;
         $("#form").css("display","none");
     }
 });
 
+
 $("#viewEmails").on("click", () => {
     if(!showEmails){
         showEmails = true;
+        loadContent();
         $("#list").animate({right:'325px'});
     }else{
         showEmails = false;
         $("#list").animate({right:'0px'});
+        $(".linkedEmails").remove();
     }
 });
 
 //#endregion
 
 //#region toHtmlList
-function toList(){
-    return `
-        <div class ="linkedEmails"> 
-        <h3> ${linkThisEmail}</h3>
-        <ul class ="linkedImages" >
-            <li><img src ="${linkThisImage}"></li>
-        </ul>
-    </div>
-    `
+
+function loadContent(){
+    var e =0;
+    var l = 1;   
+
+    emailInfo.forEach(() => {
+        var newdiv = document.createElement("div");
+        newdiv.setAttribute("class","linkedEmails");
+        var parentdiv = document.getElementById("allEmails");
+        parentdiv.appendChild(newdiv); // appends the div to HTML
+
+        var h3 = document.createElement("h3");
+        var title = document.createTextNode(emailInfo[e][0]);
+
+        h3.appendChild(title);
+        newdiv.appendChild(h3);
+
+        var ul = document.createElement("ul");    
+        for (let i = 1; i < emailInfo[e].length; i++) {
+            var li = document.createElement("li");
+            var img = document.createElement("img")
+            var imgLink = emailInfo[e][l].toString();
+            img.src = imgLink;
+            
+            li.appendChild(img);
+            ul.appendChild(li);
+            l++;
+        }
+        newdiv.appendChild(ul);
+        l=1;
+        e++;
+    });
 }
 //#endregion

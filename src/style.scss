@@ -1,12 +1,21 @@
-:root{//Variables to be interacted with in JS
-    --headBgCol:purple;
-    --sideBgCol:lightblue;
-    --imgBgCol: lightgrey;
+// :root{//Variables to be interacted with in JS
+//     // --sideBgCol:lightblue;
+//     --imgBgCol: lightgrey;
 
-    // --image:url(https://picsum.photos/id/1/200/300);
-}
+//     // --image:url(https://picsum.photos/id/1/200/300);
+// }
+
+@import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Pattaya&display=swap');
+
+
+$button: #495D63;
+$background:#629677;
+$sideBgCol:#D7BCC8;
+$emailList:#98B6B1;
+$headBgCol:#FAC8CD;
+
 body{
-    background-color: rgb(94, 130, 206);
+    background-color: $background;
 }
 .shadow{
     -webkit-box-shadow: -5px 6px 19px 0px #000000; 
@@ -15,14 +24,18 @@ body{
 #header{
     height:150px;
     width:100%;
-    background-color: var(--headBgCol);
+    background-color: $headBgCol;
     z-index: 150;
+    border-bottom:3px solid black;
     h1{
         margin:0;
         padding-top:35px;
         text-align: center;
-        color:white;
-        font-size: 48px;
+        color:darken($button,10%);
+        font-family: 'Pattaya', sans-serif;
+        font-size: 64px;
+        letter-spacing: 1px;
+        font-weight: 400;
     }
 }
 #list{
@@ -31,47 +44,47 @@ body{
     right: 0;
     width:325px;
     height: 90%;
-    background-color:darken(lightblue,10%);
+    background-color:$emailList;
     border-left:3px solid black;
+}
+#allEmails{
+    width:90%;
+    height:90%;
+    margin:auto;
+    // padding:10px;
+    overflow-y: scroll;
+    h3{
+        text-align: center;
+        text-transform: uppercase;
+        font-family: 'Padauk', sans-serif;
+        font-size: 16px;
+        font-weight:700;
+    }
+    
+    .linkedEmails{
+        border-top:3px solid black;
+        border-bottom:3px solid black;
+        border-left: 3px solid black;
+        outline: 1px solid lightgrey;
+        background-color: grey;
 
-    .allEmails{
-        width:90%;
-        height:90%;
-        margin:auto;
-        // padding:10px;
-        overflow-y: scroll;
-        h3{
-            text-align: center;
-            text-transform: uppercase;
-            font-size: 16px;
-            font-weight:700;
-        }
-        
-        .linkedEmails{
-            border-top:3px solid black;
-            border-bottom:3px solid black;
-            border-left: 3px solid black;
-            outline: 1px solid lightgrey;
-            background-color: grey;
 
-
-            ul{
-                display: inline-flex;
-                // margin: 10px auto;
-                li{
-                    margin-right:20px;
-                    margin-left: 10px;
-                    list-style: none;
-                    img{
-                        border-radius: 50%;
-                    }
+        ul{
+            display: inline-flex;
+            // margin: 10px auto;
+            li{
+                margin-right:20px;
+                margin-left: 10px;
+                list-style: none;
+                img{
+                    border-radius: 50%;
                 }
             }
         }
-        .linkedImages{
-            padding: 0;
-            margin: 10px;
-        }
+    }
+    .linkedImages{
+        padding: 0;
+        margin: 10px;
     }
 }
 
@@ -81,14 +94,14 @@ body{
     width:325px;
     height:100vh;
     z-index:100;
-    background-color:var(--sideBgCol);
+    background-color:$sideBgCol;
     border-left:3px solid black;
 
     
 
     #form{
         display: none;
-        background-color: lightgrey;
+        background-color: $emailList;
         margin: 50px auto 0;
         border: 3px solid slategrey;
         border-radius: 10%;
@@ -125,16 +138,19 @@ body{
         width:200px;
         height:55px;
         text-transform: capitalize;
-        background-color: crimson;
+        background-color: $button;
         border: 2px solid black;
-        color:white;
         cursor: pointer;
+        font-family: 'Padauk', sans-serif;
+        font-size: 16px;
+        color:white;
+
         &:first-of-type{
             margin-top:55px;
             margin-bottom:35px;
         }
         &:hover{
-            background-color: darken(crimson,5%);
+            background-color: darken($button,5%);
         }
         &:active{
             -webkit-box-shadow: inset 0px 0px 10px -4px #000000; 
@@ -151,7 +167,7 @@ body{
     #image{
         width:100%;
         height:100%;
-        background-color:var(--imgBgCol);
+        background-color:$sideBgCol;
         margin: 50px auto 0;
         border-radius: 15%;
         border:3px solid darkgrey;
