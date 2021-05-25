@@ -73,7 +73,8 @@ function validateAndLink(inputText){
             firstemail = false;
             savedEmail = email;
             email = null;
-            return setTimeout(createnew(savedEmail),toList,100);//createnew(savedEmail)
+            // num = 0;
+            return createnew(/*num,*/savedEmail);
         }
         /**
          * if this is not the 1st array check to see if there is an array with the same email
@@ -81,9 +82,15 @@ function validateAndLink(inputText){
          * if there is add it on to the existing array.
          * else create a new array and store it there.
          */
+        
 
         for (let i = 0; i < emailInfo.length; i++) {
-            if(emailInfo[i][0].match(email)){
+            console.log(`%c email is ${email}`,"color:lightblue");
+            console.log(`%c array data emails ${emailInfo[i]["email"]} and matches email is ${email}`,"color:green");
+
+            // if(emailInfo[i]["email"].match(email)){ // Change Email info[i][0] to using key pair to match for an email in the 1st array.
+            if(emailInfo[i][0].match(email)){ // Change Email info[i][0] to using key pair to match for an email in the 1st array.
+
                 email = null;
                 getdata();
                 return emailInfo[i].push(currentImage);
@@ -93,8 +100,7 @@ function validateAndLink(inputText){
                 savedEmail = email;
                 email = null;
                 j = 0;
-                // return createnew(savedEmail);
-                return setTimeout(createnew(savedEmail),toList(),100);//createnew(savedEmail)
+                return createnew(/*num,*/ savedEmail);
             }
         }
     };
@@ -102,18 +108,24 @@ function validateAndLink(inputText){
 var emailCheck = 1;
 var firstemail = true;
 
-var emailInfo =
-    [
-        {id: 0, email: "EmailAddress1@email.com", link1: "link1"},
-        {id: 1, email: "EmailAddress2@email.com", link1: "link1"},
-        {id: 2, email: "EmailAddress3@email.com", link1: "link1"}
-    ];
+var emailInfo  =[
+    // {email: "EmailAddress1@email.com", link: "link1"},
+    // {email: "EmailAddress2@email.com", link: "link1"},
+    // {email: "EmailAddress3@email.com", link: "link1"}
 
+];
+//test
+function testing(){
+    var searchEmail = "EmailAddress2@email.com";
+    var filteredEmail = emailInfo.find(function(item){
+        return item.email === searchEmail;
+    })[0];
+}
+//test
 
-
-function createnew(savedEmail){
-    emailInfo.push([`${savedEmail}`,`${currentImage}`]);
-    emailCheck = emailInfo.length ;
+function createnew(/*num,*/ savedEmail){
+    emailInfo.push(savedEmail, currentImage);
+    // emailInfo.push({email:[savedEmail],link:[currentImage]});//future iteration
     getdata();
 }
 
@@ -173,7 +185,7 @@ const convertArrayToObject = (array, key) =>{
     },initialValue);
 };
 
-console.log(convertArrayToObject(emailInfo,'id',),);
+// console.log(convertArrayToObject(emailInfo,'id',),);
 /**
  * use proxy on object to check it.
  * https://www.javascripttutorial.net/es6/javascript-proxy/
