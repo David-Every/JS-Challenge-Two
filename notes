@@ -1,8 +1,8 @@
-[ ] Image can be assigned to an email address
+[ x ] Image can be assigned to an email address
 [ x ] webpage should contain an input field that accepts an email address which is validated
-[ ] On submission the image is linked to the email address
-[ ] A new image is displayed which can be linked to a new email address or a previous one
-[ ] If the email address has multiple linked images - display this.
+[ x ] On submission the image is linked to the email address
+[ x ] A new image is displayed which can be linked to a new email address or a previous one
+[ x ] If the email address has multiple linked images - display this.
 
 https://unsplash.com/documentation or https://picsum.photos/ and displays on a web page.
 
@@ -12,4 +12,20 @@ https://youtu.be/LYbt50dhTko
 21st to-do
 [ x ] Sort out button styling (Hover / active)
 [ x ] get New Image to work (Need Axios) without reloading browser.
-[ ] be able to create and view emails that have been added to the site 
+[ x ] be able to create and view emails that have been added to the site 
+
+26th to-do
+[ ] adjust the image to be able to adjust sizes accordingly to the size.
+[ ] refactor code to be more dry.
+[ x ] work on styling and colour changes for the site
+[ ] Merge, commit and push
+
+I went to collect my medication, and the pharmacy didnt have it saying that 
+they didnt have any perscriptions in my name even though earlier this year
+when i was online the pharmacy is supposed to be redoing it for me as thats
+what it suggested for me to do online?
+
+
+David every
+28 woodlands Drive
+23rd november, 1995

@@ -26,7 +26,7 @@ $("body").css("margin", "0");
  const WH = [
     ["500/400"],//Large
     ["300/200"],//med
-    ["200/100"] //small
+    ["200/100"], //small
     ["50"]
 
 ]
@@ -42,7 +42,7 @@ const minNo = 1;
 const maxNo = 1085;
 let idNum;
 
-const getImg =document.getElementById("newImage");
+
 
 const getdata = () => {
     idNum = Math.floor(Math.random() * maxNo); // Get new number
@@ -55,18 +55,123 @@ const getdata = () => {
 //#endregion
 
 /**
+ * Change Image Display size 
+ */
+
+ 
+
+/**
  * Start
  */
- setTimeout(getdata,1);
+//#region Interactivity
+$list =$("#list");
+$sidebar =$("#sidebar");
+$mobEmail =$("#mobEmail");
+$linkEmail =$("");
+$formPlacement = $(body);
+const getImg =document.getElementById("newImage");
+$mobImgrefresh = $("#reload").on("click",getdata);
+
+var showing = false, showEmails = false, active = false;
+var animSpeed = 500;
+
+const t = window.matchMedia("(max-width: 949px)")
+
+window.addEventListener("resize",res);
+
+ $emailForm = $( `
+    <div id ="form"> 
+        <form name = form1>
+            <label for ="emailBox" >Email:</label>  
+            <input id ="emailBox" type="text" name ="text1">
+        </form>
+        <button type = "button" onclick="validateAndLink(document.form1.text1)">
+            <span>Link Image</span>
+        </button>
+    </div> 
+`);
+
+
+setTimeout(getdata,1);
+res();
 
 getImg.addEventListener("click", getdata);
+
+function res() {
+    if (t.matches) { 
+        $sidebar.css("display","none");
+    } else {
+        $sidebar.css("display","block");
+    }
+}
+
+$("#linkToEmail").on("click",()=>{
+    console.log("clicked");
+    if(!showing){
+        showing = true;
+        $emailForm.appendTo($sidebar);
+    }else{
+        showing = false;
+        $("#form").remove("#form");
+    }
+});
+
+$("#linkEmail").on("click",()=>{
+    console.log("clicked");
+    if(!showing){
+        showing = true;
+        $emailForm.appendTo($formPlacement);
+    }else{
+        showing = false;
+        $("#form").remove("#form");
+    }
+});
+
+/**
+ * 
+ */
+
+
+$("#viewEmails").on("click", () => {
+    if(!showEmails){
+        showEmails = true;
+        loadContent();
+        $list.animate({right:'325px'});
+        $list.css("display","block");
+    }else{
+        showEmails = false;
+        $list.animate({right:'0px'});
+        setTimeout(()=>{
+            $list.css("display","none");
+        },1000);
+    }
+});
+
+$("#mobEmail").on("click",() => {
+    if(!active){
+        active=true;
+        $list.css({"display":"block","width":"100%","right":"-100%"});
+        $list.animate({left:'-3px'},animSpeed);
+    }else{
+        active=false;
+        $list.animate({left:'100%'},animSpeed);
+        setTimeout(()=>{
+            $list.css({"display":"none","width":"325px"});
+    
+        },animSpeed + 10);
+    }
+});
+
+
+
+
+//#endregion
 
 /**
  * Validate email
  */
 //#region Email Validation
 
-var showing = false, showEmails = false;
 
 // validate and link
 /**
@@ -86,8 +191,6 @@ function validateAndLink(inputText){
             email = null;
             return createnew(savedEmail)
         }
-        // else{
-
         /**
          * if this is not the 1st array check to see if there is an array with the same email
          * as what is currently in the input value
@@ -138,29 +241,6 @@ function ValidateEmail(inputText){
     }
 }
 
-$("#linkToEmail").on("click",()=>{
-    if(!showing){
-        showing = true;
-        $("#form").css("display","block");
-
-    }else{
-        showing = false;
-        $("#form").css("display","none");
-    }
-});
-
-
-$("#viewEmails").on("click", () => {
-    if(!showEmails){
-        showEmails = true;
-        loadContent();
-        $("#list").animate({right:'325px'});
-    }else{
-        showEmails = false;
-        $("#list").animate({right:'0px'});
-        $(".linkedEmails").remove();
-    }
-});
 
 //#endregion
 

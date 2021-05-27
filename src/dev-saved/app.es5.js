@@ -20,7 +20,7 @@ $("body").css("margin", "0"); // $body.css("margin","0")
 
 var WH = [["500/400"], //Large
 ["300/200"], //med
-["200/100"] //small
+["200/100"], //small
 ["50"]];
 var x = 0;
 /**
@@ -33,7 +33,6 @@ var currentImage; // adjust height and width according to browser size
 var minNo = 1;
 var maxNo = 1085;
 var idNum;
-var getImg = document.getElementById("newImage");
 
 var getdata = function getdata() {
   idNum = Math.floor(Math.random() * maxNo); // Get new number
@@ -45,19 +44,115 @@ var getdata = function getdata() {
 }; //#endregion
 
 /**
- * Start
+ * Change Image Display size 
  */
 
+/**
+ * Start
+ */
+//#region Interactivity
 
+
+$list = $("#list");
+$sidebar = $("#sidebar");
+$mobEmail = $("#mobEmail");
+$linkEmail = $("");
+$formPlacement = $(body);
+var getImg = document.getElementById("newImage");
+$mobImgrefresh = $("#reload").on("click", getdata);
+var showing = false,
+    showEmails = false,
+    active = false;
+var animSpeed = 500;
+var t = window.matchMedia("(max-width: 949px)");
+window.addEventListener("resize", res);
+$emailForm = $("\n    <div id =\"form\"> \n        <form name = form1>\n            <label for =\"emailBox\" >Email:</label>  \n            <input id =\"emailBox\" type=\"text\" name =\"text1\">\n        </form>\n        <button type = \"button\" onclick=\"validateAndLink(document.form1.text1)\">\n            <span>Link Image</span>\n        </button>\n    </div> \n");
 setTimeout(getdata, 1);
+res();
 getImg.addEventListener("click", getdata);
+
+function res() {
+  if (t.matches) {
+    $sidebar.css("display", "none");
+  } else {
+    $sidebar.css("display", "block");
+  }
+}
+
+$("#linkToEmail").on("click", function () {
+  console.log("clicked");
+
+  if (!showing) {
+    showing = true;
+    $emailForm.appendTo($sidebar);
+  } else {
+    showing = false;
+    $("#form").remove("#form");
+  }
+});
+$("#linkEmail").on("click", function () {
+  console.log("clicked");
+
+  if (!showing) {
+    showing = true;
+    $emailForm.appendTo($formPlacement);
+  } else {
+    showing = false;
+    $("#form").remove("#form");
+  }
+});
+/**
+ * 
+ */
+
+$("#viewEmails").on("click", function () {
+  if (!showEmails) {
+    showEmails = true;
+    loadContent();
+    $list.animate({
+      right: '325px'
+    });
+    $list.css("display", "block");
+  } else {
+    showEmails = false;
+    $list.animate({
+      right: '0px'
+    });
+    setTimeout(function () {
+      $list.css("display", "none");
+    }, 1000);
+  }
+});
+$("#mobEmail").on("click", function () {
+  if (!active) {
+    active = true;
+    $list.css({
+      "display": "block",
+      "width": "100%",
+      "right": "-100%"
+    });
+    $list.animate({
+      left: '-3px'
+    }, animSpeed);
+  } else {
+    active = false;
+    $list.animate({
+      left: '100%'
+    }, animSpeed);
+    setTimeout(function () {
+      $list.css({
+        "display": "none",
+        "width": "325px"
+      });
+    }, animSpeed + 10);
+  }
+}); //#endregion
+
 /**
  * Validate email
  */
 //#region Email Validation
-
-var showing = false,
-    showEmails = false; // validate and link
+// validate and link
 
 /**
  * Validate the Email address if it is valid, LINK it together and store in an array
@@ -78,8 +173,7 @@ function validateAndLink(inputText) {
       savedEmail = email;
       email = null;
       return createnew(savedEmail);
-    } // else{
-
+    }
     /**
      * if this is not the 1st array check to see if there is an array with the same email
      * as what is currently in the input value
@@ -130,33 +224,9 @@ function ValidateEmail(inputText) {
     document.form1.text1.focus();
     return false;
   }
-}
-
-$("#linkToEmail").on("click", function () {
-  if (!showing) {
-    showing = true;
-    $("#form").css("display", "block");
-  } else {
-    showing = false;
-    $("#form").css("display", "none");
-  }
-});
-$("#viewEmails").on("click", function () {
-  if (!showEmails) {
-    showEmails = true;
-    loadContent();
-    $("#list").animate({
-      right: '325px'
-    });
-  } else {
-    showEmails = false;
-    $("#list").animate({
-      right: '0px'
-    });
-    $(".linkedEmails").remove();
-  }
-}); //#endregion
+} //#endregion
 //#region toHtmlList
+
 
 function loadContent() {
   var e = 0;

@@ -20,26 +20,23 @@
                         <button id ="newImage">
                             <span>new image</span>
                         </button>
-                        <button id = "linkToEmail">
-                            <span>link to email</span>
-                        </button>
                         <button id = "viewEmails">
                             <span>View emails</span>
                         </button>
-                        <div id ="form"> 
-                            <form name = form1>
-                                <label for ="emailBox" >Email:</label>  
-                                <input id ="emailBox" type="text" name ="text1">
-                            </form>
-                            <button type = "button" onclick="validateAndLink(document.form1.text1)">
-                                <!-- <input type="button" name ="submit" > -->
-                                <span>Link Image</span>
-                            </button>
-                        </div>
-                    </div>
+                        <button id = "linkToEmail">
+                            <span>link to email</span>
+                        </button>
+                    </div>                    
                 </div>
                 <div id ="shownImage">
                     <div id="image"></div>
+                </div>
+                <div id ="mobileMenu">
+                    <div id ="mobButtons"> 
+                        <button id = "reload"></button>
+                        <button id = "linkEmail"></button>
+                        <button id ="mobEmail" class ="mobEmail-closed"></button>
+                    </div>
                 </div>
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

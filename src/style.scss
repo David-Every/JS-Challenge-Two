@@ -6,13 +6,16 @@
 // }
 
 @import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Pattaya&display=swap');
+@import url("//use.fontawesome.com/releases/v5.15.3/css/all.css");
+// @import "../scss/hamburgers",
+// "../scss/base",
+// "../scss/collapse";
 
-
-$button: #495D63;
-$background:#629677;
-$sideBgCol:#D7BCC8;
-$emailList:#98B6B1;
-$headBgCol:#FAC8CD;
+$button: #d64933;//#495D63;
+$background:#58a4b0;//#629677;
+$sideBgCol:#2b303a;//#D7BCC8;
+$emailList:#bac1b8;//#98B6B1;
+$headBgCol:#0c7c59;//#FAC8CD;
 
 body{
     background-color: $background;
@@ -31,15 +34,17 @@ body{
         margin:0;
         padding-top:35px;
         text-align: center;
-        color:darken($button,10%);
+        text-decoration: underline;
+        color:$sideBgCol;
         font-family: 'Pattaya', sans-serif;
+        text-shadow: 1px 0px 7px rgba(255, 255, 255, 1);
         font-size: 64px;
         letter-spacing: 1px;
         font-weight: 400;
     }
 }
 #list{
-    // display: none;
+    display: none;
     position: fixed;
     right: 0;
     width:325px;
@@ -96,42 +101,11 @@ body{
     z-index:100;
     background-color:$sideBgCol;
     border-left:3px solid black;
-
-    
-
-    #form{
-        display: none;
-        background-color: $emailList;
-        margin: 50px auto 0;
-        border: 3px solid slategrey;
-        border-radius: 10%;
-        width:90%;
-        #emailBox{
-            width:90%;
-            height:35px;
-            font-size: 16px;
-            margin: 25px 10px;            
-        }
-        button{
-            margin:0 45px 25px; 
-        }
-        label{
-            margin-top:20px;
-        }
-        &::before{
-            content: " ";
-            position: absolute;
-            top:24.5%;
-            right:40%;
-            border-width: 30px;
-            border-style: solid;
-            border-color:  transparent transparent slategrey transparent;
-        }
-    }
     .buttons{
-        width:100%;
-        display: flex;
-        flex-wrap: wrap;
+        width:200px;
+        // display: flex;
+        // flex-wrap: wrap;
+        margin:23% auto;
     }
     button{
         margin: 0 auto;
@@ -145,9 +119,8 @@ body{
         font-size: 16px;
         color:white;
 
-        &:first-of-type{
-            margin-top:55px;
-            margin-bottom:35px;
+        &:nth-of-type(2){
+            margin:35px 0;
         }
         &:hover{
             background-color: darken($button,5%);
@@ -157,24 +130,129 @@ body{
             box-shadow: inset 0px 0px 10px -4px #000000;
         }
     }
+    // #newImage{
+    //     display:none;
+    // }
    
 }
+
+#form{
+    // display: none;
+    background-color: $emailList;
+    margin: 50px auto 0;
+    border: 3px solid slategrey;
+    border-radius: 10%;
+    width:90%;
+    #emailBox{
+        width:90%;
+        height:35px;
+        font-size: 16px;
+        margin: 25px 10px;            
+    }
+    button{
+        margin:0 45px 25px; 
+    }
+    label{
+        margin-top:20px;
+    }
+    &::before{
+        content: " ";
+        position: absolute;
+        top:24.5%;
+        right:40%;
+        border-width: 30px;
+        border-style: solid;
+        border-color:  transparent transparent slategrey transparent;
+    }
+}
+
 #shownImage{
-    width:45%;
-    height:400px;
+    width:85%;
+    height:500px;
     margin-left: 5%;
     // margin-right:15%;
     #image{
         width:100%;
         height:100%;
         background-color:$sideBgCol;
-        margin: 50px auto 0;
+        margin: 75px auto 0;
         border-radius: 15%;
         border:3px solid darkgrey;
-        -webkit-box-shadow: 0px 0px 30px 3px #91df00; 
-        box-shadow: 0px 0px 30px 3px #91df00;
+        -webkit-box-shadow: 0px 0px 30px 3px $headBgCol; 
+        box-shadow: 0px 0px 30px 3px $headBgCol;
         background-color: lightgreen;
-        // background-image: url(https://picsum.photos/id/1/200/300);
         background-size: cover;
     }
 }
+#mobileMenu{
+    display:block;
+    height: 80px;
+    width:100%;
+    position: absolute;
+    bottom:0px;
+    background-color: $sideBgCol;
+    border-top: 3px solid black;
+    z-index: 300;
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after{
+        background-color: white;
+    }
+    /*#reload,#linkEmail*/
+    button{
+        width:74px;
+        height:62px;
+        margin-right: 15px;
+        background-color: $button;
+        background-color: $button;
+        border: 2px solid black;
+        border-radius: 15%;
+        // margin-left: 45%;
+        // margin-top: 10px;
+        &:hover{
+            background-color: darken($button,5%);
+        }
+        &:active{
+            -webkit-box-shadow: inset 0px 0px 10px -4px #000000; 
+            box-shadow: inset 0px 0px 10px -4px #000000;
+        }
+        &::before{
+            content:"\f01e";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 600;
+            font-size: 32px;
+            color:white;
+        }
+    }
+    
+
+    #linkEmail::before{
+        content: "\f0c1";
+    }
+    #mobEmail::before{
+        content: "\f0e0";
+    }
+}
+
+#mobButtons{
+    width:250px;
+    display: inline-flex;
+    margin:5px 12%;
+}
+
+@media(min-width:950px){
+    
+    #mobileMenu{
+        display: none;
+    }
+    #shownImage{
+        width:55%;
+    }
+}
+
+// @media(min-width:1200px){
+    
+//     #newImage{
+//         display: block;
+//     }
+// }
