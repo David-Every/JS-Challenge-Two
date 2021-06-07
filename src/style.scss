@@ -1,15 +1,6 @@
-// :root{//Variables to be interacted with in JS
-//     // --sideBgCol:lightblue;
-//     --imgBgCol: lightgrey;
-
-//     // --image:url(https://picsum.photos/id/1/200/300);
-// }
 
 @import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Pattaya&display=swap');
 @import url("//use.fontawesome.com/releases/v5.15.3/css/all.css");
-// @import "../scss/hamburgers",
-// "../scss/base",
-// "../scss/collapse";
 
 $button: #d64933;//#495D63;
 $background:#58a4b0;//#629677;
@@ -107,6 +98,9 @@ body{
         // flex-wrap: wrap;
         margin:23% auto;
     }
+}
+
+#sidebar, #form{
     button{
         margin: 0 auto;
         width:200px;
@@ -130,19 +124,16 @@ body{
             box-shadow: inset 0px 0px 10px -4px #000000;
         }
     }
-    // #newImage{
-    //     display:none;
-    // }
-   
 }
 
 #form{
     // display: none;
     background-color: $emailList;
-    margin: 50px auto 0;
+    // margin: 50px auto 0;
     border: 3px solid slategrey;
     border-radius: 10%;
-    width:90%;
+    width:280px;
+    position:absolute;
     #emailBox{
         width:90%;
         height:35px;
@@ -155,15 +146,36 @@ body{
     label{
         margin-top:20px;
     }
-    &::before{
+    // &::before{
+        
+    // }
+}
+.lgscn{
+    top:43.5%;
+    left:15px;
+    ::before{
         content: " ";
         position: absolute;
-        top:24.5%;
+        top:-33%;
         right:40%;
         border-width: 30px;
         border-style: solid;
         border-color:  transparent transparent slategrey transparent;
-    }
+    }   
+}
+
+.smscn{
+    // top:43.5%;
+    left:15px;
+    ::before{
+        content: " ";
+        position: absolute;
+        bottom:-41%;
+        right:40%;
+        border-width: 30px;
+        border-style: solid;
+        border-color: slategrey transparent transparent  transparent;
+    }   
 }
 
 #shownImage{
@@ -198,7 +210,6 @@ body{
     .hamburger-inner::after{
         background-color: white;
     }
-    /*#reload,#linkEmail*/
     button{
         width:74px;
         height:62px;
@@ -207,8 +218,7 @@ body{
         background-color: $button;
         border: 2px solid black;
         border-radius: 15%;
-        // margin-left: 45%;
-        // margin-top: 10px;
+
         &:hover{
             background-color: darken($button,5%);
         }
@@ -237,7 +247,7 @@ body{
 #mobButtons{
     width:250px;
     display: inline-flex;
-    margin:5px 12%;
+    margin:5px 10%;
 }
 
 @media(min-width:950px){
@@ -249,10 +259,3 @@ body{
         width:55%;
     }
 }
-
-// @media(min-width:1200px){
-    
-//     #newImage{
-//         display: block;
-//     }
-// }

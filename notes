@@ -9,23 +9,20 @@ https://unsplash.com/documentation or https://picsum.photos/ and displays on a w
 https://youtu.be/LYbt50dhTko
 
 
-21st to-do
 [ x ] Sort out button styling (Hover / active)
 [ x ] get New Image to work (Need Axios) without reloading browser.
 [ x ] be able to create and view emails that have been added to the site 
 
-26th to-do
-[ ] adjust the image to be able to adjust sizes accordingly to the size.
-[ ] refactor code to be more dry.
+[ x ] adjust the image to be able to adjust sizes accordingly to the size.
+[ x ] refactor code to be more dry.
 [ x ] work on styling and colour changes for the site
-[ ] Merge, commit and push
 
-I went to collect my medication, and the pharmacy didnt have it saying that 
-they didnt have any perscriptions in my name even though earlier this year
-when i was online the pharmacy is supposed to be redoing it for me as thats
-what it suggested for me to do online?
-
-
-David every
-28 woodlands Drive
-23rd november, 1995
+[ ] Issue when changing screensize it makes it so that the email view stops working without refreshing
+    [ x ] Try adding in a boolean to make sure it cannot be ran again whilst already running
+[ x ] Fix issue with emaillinking when on fullscreen?
+[ ] Fix Issue with image being too big on small screen.
+[  ] Need to make Images change with size.
+[ ] Detect IE in code to run es5
+[ x ] Add in Axios Polyfill
+[  ] Make sure that code runs in IE
+[ ] View emails stops opening when going between small and large

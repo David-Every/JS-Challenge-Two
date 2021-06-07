@@ -3,11 +3,9 @@
 /**
  * Number Randomiser and getting image (Update to promise / Axios)
  */
+// const { listenerCount } = require("gulp");
 // var idNum;// =num; // random num between minNo and maxNo
-// console.log(WH[1]);
-$("body").css("margin", "0"); // $body.css("margin","0")
-// getdata();
-
+$("body").css("margin", "0");
 /**
  * Set Image Size -
  * - Detect current Screen width
@@ -20,9 +18,14 @@ $("body").css("margin", "0"); // $body.css("margin","0")
 
 var WH = [["500/400"], //Large
 ["300/200"], //med
-["200/100"], //small
+["200"], //small
 ["50"]];
-var x = 0;
+/**
+ * Set the Width and height of large image shown
+ */
+// function getSize(size){
+// }
+
 /**
  * Axios
  */
@@ -33,13 +36,27 @@ var currentImage; // adjust height and width according to browser size
 var minNo = 1;
 var maxNo = 1085;
 var idNum;
+var linkToSave = "https://picsum.photos/id/".concat(idNum, "/");
 
 var getdata = function getdata() {
+  // getSize(size);
+  var size;
+
+  if (t.matches) {
+    size = 2;
+  } else {
+    size = 0;
+  }
+
+  setTimeout(function () {});
   idNum = Math.floor(Math.random() * maxNo); // Get new number
 
-  currentImage = "https://picsum.photos/id/".concat(idNum, "/").concat(WH[x]);
+  currentImage = "https://picsum.photos/id/".concat(idNum, "/").concat(WH[size]);
+  linkToSave = "https://picsum.photos/id/".concat(idNum, "/");
   axios.get(currentImage).then(function () {
-    $("#image").css("background-image", "url(https://picsum.photos/id/".concat(idNum, "/").concat(WH[x], ")"));
+    $("#image").css("background-image", "url(https://picsum.photos/id/".concat(idNum, "/").concat(WH[size], ")"));
+  })["catch"](function () {
+    console.log("cannot get ".concat(currentImage, " Error here")); // getdata();
   });
 }; //#endregion
 
@@ -53,79 +70,100 @@ var getdata = function getdata() {
 //#region Interactivity
 
 
-$list = $("#list");
-$sidebar = $("#sidebar");
-$mobEmail = $("#mobEmail");
-$linkEmail = $("");
-$formPlacement = $(body);
+var $list = $("#list");
+var $sidebar = $("#sidebar");
+var $mobEmail = $("#mobEmail");
+var $linkEmail = $("");
+var $formPlacement = $(body);
 var getImg = document.getElementById("newImage");
-$mobImgrefresh = $("#reload").on("click", getdata);
+var $mobImgrefresh = $("#reload").on("click", getdata);
 var showing = false,
     showEmails = false,
     active = false;
 var animSpeed = 500;
 var t = window.matchMedia("(max-width: 949px)");
-window.addEventListener("resize", res);
-$emailForm = $("\n    <div id =\"form\"> \n        <form name = form1>\n            <label for =\"emailBox\" >Email:</label>  \n            <input id =\"emailBox\" type=\"text\" name =\"text1\">\n        </form>\n        <button type = \"button\" onclick=\"validateAndLink(document.form1.text1)\">\n            <span>Link Image</span>\n        </button>\n    </div> \n");
+window.addEventListener("resize", function () {
+  res();
+  reset();
+});
+var $emailForm = $("\n    <div id =\"form\"> \n        <form name = form1>\n            <label for =\"emailBox\" >Email:</label>  \n            <input id =\"emailBox\" type=\"text\" name =\"text1\">\n        </form>\n        <button type = \"button\" onclick=\"validateAndLink(document.form1.text1)\">\n            <span>Link Image</span>\n        </button>\n    </div> \n");
 setTimeout(getdata, 1);
 res();
 getImg.addEventListener("click", getdata);
 
 function res() {
   if (t.matches) {
+    //    listEmailsReset();
     $sidebar.css("display", "none");
   } else {
     $sidebar.css("display", "block");
   }
 }
 
-$("#linkToEmail").on("click", function () {
-  console.log("clicked");
+function reset() {
+  // console.log("Working")
 
+  /**
+   * This will get the site to close everything and reset it all to default
+   */
+  // positioning of sidebar
+  // positioning of email section
+  // listEmailsReset(); // Only needs to be called once
+  formReset();
+}
+
+$("#linkToEmail").on("click", function () {
   if (!showing) {
     showing = true;
     $emailForm.appendTo($sidebar);
+    $("#form").addClass("lgscn");
+    $("#form").css({
+      "bottom": "320px"
+    });
   } else {
-    showing = false;
-    $("#form").remove("#form");
+    formReset();
   }
 });
-$("#linkEmail").on("click", function () {
-  console.log("clicked");
 
+function formReset() {
+  showing = false;
+  $("#form").removeClass("lgscn");
+  $("#form").removeClass("smscn");
+  setTimeout(function () {
+    $("#form").remove("#form");
+  }, 1);
+}
+
+$("#linkEmail").on("click", function () {
   if (!showing) {
     showing = true;
-    $emailForm.appendTo($formPlacement);
+    $emailForm.appendTo($formPlacement); // bottom: 150px;
+
+    $("#form").addClass("smscn");
+    $("#form").css({
+      "bottom": "150px"
+    });
   } else {
     showing = false;
-    $("#form").remove("#form");
+    formReset();
   }
 });
-/**
- * 
- */
-
 $("#viewEmails").on("click", function () {
-  if (!showEmails) {
-    showEmails = true;
+  if (!active) {
+    active = true;
     loadContent();
     $list.animate({
       right: '325px'
     });
     $list.css("display", "block");
   } else {
-    showEmails = false;
-    $list.animate({
-      right: '0px'
-    });
-    setTimeout(function () {
-      $list.css("display", "none");
-    }, 1000);
+    listEmailsReset();
   }
 });
 $("#mobEmail").on("click", function () {
   if (!active) {
     active = true;
+    loadContent();
     $list.css({
       "display": "block",
       "width": "100%",
@@ -135,7 +173,15 @@ $("#mobEmail").on("click", function () {
       left: '-3px'
     }, animSpeed);
   } else {
-    active = false;
+    listEmailsReset();
+  }
+});
+
+function listEmailsReset() {
+  active = false;
+  $(".linkedEmails").remove(".linkedEmails");
+
+  if (t.matches) {
     $list.animate({
       left: '100%'
     }, animSpeed);
@@ -144,9 +190,16 @@ $("#mobEmail").on("click", function () {
         "display": "none",
         "width": "325px"
       });
-    }, animSpeed + 10);
+    }, animSpeed);
+  } else {
+    $list.animate({
+      right: '0px'
+    });
+    setTimeout(function () {
+      $list.css("display", "none");
+    }, animSpeed);
   }
-}); //#endregion
+} //#endregion
 
 /**
  * Validate email
@@ -157,6 +210,7 @@ $("#mobEmail").on("click", function () {
 /**
  * Validate the Email address if it is valid, LINK it together and store in an array
  */
+
 
 function validateAndLink(inputText) {
   if (ValidateEmail(inputText)) {
@@ -186,7 +240,7 @@ function validateAndLink(inputText) {
       if (emailInfo[i][0].match(email)) {
         email = null;
         getdata();
-        return emailInfo[i].push(currentImage);
+        return emailInfo[i].push(linkToSave);
       } else {
         j++;
       }
@@ -208,7 +262,7 @@ var firstemail = true;
 var emailInfo = [];
 
 function createnew(savedEmail) {
-  emailInfo.push(["".concat(savedEmail), "".concat(currentImage)]);
+  emailInfo.push(["".concat(savedEmail), "".concat(linkToSave)]);
   emailCheck = emailInfo.length;
   getdata();
 }
@@ -244,9 +298,16 @@ function loadContent() {
     var ul = document.createElement("ul");
 
     for (var i = 1; i < emailInfo[e].length; i++) {
+      if (emailInfo[e].length > 3) {
+        console.log("Greater then 3");
+        var carousel = document.createElement("div");
+        carousel.setAttribute("class", "slick");
+      }
+
       var li = document.createElement("li");
       var img = document.createElement("img");
       var imgLink = emailInfo[e][l].toString();
+      imgLink = imgLink + WH[3].toString();
       img.src = imgLink;
       li.appendChild(img);
       ul.appendChild(li);

@@ -3,16 +3,11 @@
  * Number Randomiser and getting image (Update to promise / Axios)
  */
 
+// const { listenerCount } = require("gulp");
 
 // var idNum;// =num; // random num between minNo and maxNo
 
-// console.log(WH[1]);
-
 $("body").css("margin", "0");
-// $body.css("margin","0")
-
-
-// getdata();
 
 /**
  * Set Image Size -
@@ -26,11 +21,14 @@ $("body").css("margin", "0");
  const WH = [
     ["500/400"],//Large
     ["300/200"],//med
-    ["200/100"], //small
+    ["200"], //small
     ["50"]
 
 ]
-let x = 0;
+
+/**
+ * Set the Width and height of large image shown
+ */
 
 
 /**
@@ -42,15 +40,31 @@ const minNo = 1;
 const maxNo = 1085;
 let idNum;
 
-
+var linkToSave =`https://picsum.photos/id/${idNum}/`;
 
 const getdata = () => {
+    // getSize(size);
+    let size;
+
+    if(t.matches){
+        size = 2;
+     } else{
+        size = 0;
+     }
+
+    setTimeout(() =>{});
     idNum = Math.floor(Math.random() * maxNo); // Get new number
-    currentImage =`https://picsum.photos/id/${idNum}/${WH[x]}`;
+    currentImage =`https://picsum.photos/id/${idNum}/${WH[size]}`;
+    linkToSave =`https://picsum.photos/id/${idNum}/`;
+
     axios.get(currentImage)
     .then( () =>{
-        $("#image").css("background-image",`url(https://picsum.photos/id/${idNum}/${WH[x]})`);
+        $("#image").css("background-image",`url(https://picsum.photos/id/${idNum}/${WH[size]})`);
     })
+    .catch( () => {
+        console.log(`cannot get ${currentImage} Error here`);
+        // getdata();
+    });
 }
 //#endregion
 
@@ -64,22 +78,25 @@ const getdata = () => {
  * Start
  */
 //#region Interactivity
-$list =$("#list");
-$sidebar =$("#sidebar");
-$mobEmail =$("#mobEmail");
-$linkEmail =$("");
-$formPlacement = $(body);
+var $list =$("#list");
+var $sidebar =$("#sidebar");
+var $mobEmail =$("#mobEmail");
+var $linkEmail =$("");
+var $formPlacement = $(body);
 const getImg =document.getElementById("newImage");
-$mobImgrefresh = $("#reload").on("click",getdata);
+var $mobImgrefresh = $("#reload").on("click",getdata);
 
 var showing = false, showEmails = false, active = false;
 var animSpeed = 500;
 
 const t = window.matchMedia("(max-width: 949px)")
 
-window.addEventListener("resize",res);
+window.addEventListener("resize",() =>{
+    res();
+    reset();
+});
 
- $emailForm = $( `
+ var $emailForm = $( `
     <div id ="form"> 
         <form name = form1>
             <label for ="emailBox" >Email:</label>  
@@ -91,78 +108,107 @@ window.addEventListener("resize",res);
     </div> 
 `);
 
-
 setTimeout(getdata,1);
 res();
+
+
 
 getImg.addEventListener("click", getdata);
 
 function res() {
     if (t.matches) { 
+    //    listEmailsReset();
         $sidebar.css("display","none");
+
     } else {
         $sidebar.css("display","block");
     }
 }
+function reset(){
+    // console.log("Working")
+    /**
+     * This will get the site to close everything and reset it all to default
+     */
+    // positioning of sidebar
+    // positioning of email section
+    // listEmailsReset(); // Only needs to be called once
+    formReset();
+}
 
 $("#linkToEmail").on("click",()=>{
-    console.log("clicked");
     if(!showing){
         showing = true;
         $emailForm.appendTo($sidebar);
+        $("#form").addClass("lgscn");
+        $("#form").css({"bottom":"320px"});
     }else{
-        showing = false;
-        $("#form").remove("#form");
+        formReset();
     }
 });
+function formReset(){
+        showing = false;
+        $("#form").removeClass("lgscn");
+        $("#form").removeClass("smscn");
+        setTimeout(()=>{
+            $("#form").remove("#form");
+        },1);
+     
+}
 
 $("#linkEmail").on("click",()=>{
-    console.log("clicked");
     if(!showing){
         showing = true;
         $emailForm.appendTo($formPlacement);
+    // bottom: 150px;
+        $("#form").addClass("smscn");
+        $("#form").css({"bottom":"150px"});
     }else{
         showing = false;
-        $("#form").remove("#form");
+        formReset();
     }
 });
 
-/**
- * 
- */
-
-
 $("#viewEmails").on("click", () => {
-    if(!showEmails){
-        showEmails = true;
+    if(!active){
+        active = true;
         loadContent();
         $list.animate({right:'325px'});
         $list.css("display","block");
     }else{
-        showEmails = false;
-        $list.animate({right:'0px'});
-        setTimeout(()=>{
-            $list.css("display","none");
-        },1000);
+       listEmailsReset();
     }
 });
 
 $("#mobEmail").on("click",() => {
     if(!active){
         active=true;
+        loadContent();
         $list.css({"display":"block","width":"100%","right":"-100%"});
         $list.animate({left:'-3px'},animSpeed);
     }else{
-        active=false;
+       listEmailsReset();
+    }
+});
+
+function listEmailsReset(){
+    active=false;
+    $(".linkedEmails").remove(".linkedEmails");
+
+    if(t.matches){
         $list.animate({left:'100%'},animSpeed);
         setTimeout(()=>{
             $list.css({"display":"none","width":"325px"});
     
-        },animSpeed + 10);
+        },animSpeed);
+
+    }else{
+        $list.animate({right:'0px'});
+        setTimeout(()=>{
+            $list.css("display","none");
+        },animSpeed);
     }
-});
-
-
+    
+}
 
 
 //#endregion
@@ -202,7 +248,7 @@ function validateAndLink(inputText){
             if(emailInfo[i][0].match(email)){
                 email = null;
                 getdata();
-                return emailInfo[i].push(currentImage);
+                return emailInfo[i].push(linkToSave);
             }else{
                 j++;
             }
@@ -222,7 +268,7 @@ var firstemail = true;
 var emailInfo = [];
 
 function createnew(savedEmail){
-    emailInfo.push([`${savedEmail}`,`${currentImage}`]);
+    emailInfo.push([`${savedEmail}`,`${linkToSave}`]);
     emailCheck = emailInfo.length ;
     getdata();
 }
@@ -264,9 +310,15 @@ function loadContent(){
 
         var ul = document.createElement("ul");    
         for (let i = 1; i < emailInfo[e].length; i++) {
+            if(emailInfo[e].length > 3){
+                console.log("Greater then 3");
+                var carousel = document.createElement("div");
+                carousel.setAttribute("class","slick");
+            }
             var li = document.createElement("li");
             var img = document.createElement("img")
             var imgLink = emailInfo[e][l].toString();
+            imgLink = imgLink + WH[3].toString();
             img.src = imgLink;
             
             li.appendChild(img);
