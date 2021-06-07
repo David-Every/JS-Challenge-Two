@@ -22,9 +22,12 @@ $("body").css("margin", "0");
 
 var WH = [["500/400"], //Large
 ["300/200"], //med
-["200/100"] //small
-];
-var x = 0;
+["200"], //small
+["50"]];
+/**
+ * Set the Width and height of large image shown
+ */
+
 /**
  * Axios
  */
@@ -35,35 +38,165 @@ var currentImage; // adjust height and width according to browser size
 var minNo = 1;
 var maxNo = 1085;
 var idNum;
-var getImg = document.getElementById("newImage");
+var linkToSave = "https://picsum.photos/id/".concat(idNum, "/");
 
 var getdata = function getdata() {
+  // getSize(size);
+  var size;
+
+  if (t.matches) {
+    size = 2;
+  } else {
+    size = 0;
+  }
+
+  setTimeout(function () {});
   idNum = Math.floor(Math.random() * maxNo); // Get new number
 
-  currentImage = "https://picsum.photos/id/".concat(idNum, "/").concat(WH[x]);
+  currentImage = "https://picsum.photos/id/".concat(idNum, "/").concat(WH[size]);
+  linkToSave = "https://picsum.photos/id/".concat(idNum, "/");
   axios.get(currentImage).then(function () {
-    $("#image").css("background-image", "url(https://picsum.photos/id/".concat(idNum, "/").concat(WH[x], ")"));
+    $("#image").css("background-image", "url(https://picsum.photos/id/".concat(idNum, "/").concat(WH[size], ")"));
+  })["catch"](function () {
+    console.log("cannot get ".concat(currentImage, " Error here"));
+    getdata();
   });
 }; //#endregion
 
 /**
- * Start
+ * Change Image Display size 
  */
 
+/**
+ * Start
+ */
+//#region Interactivity
 
+
+var $list = $("#list");
+var $sidebar = $("#sidebar");
+var $mobEmail = $("#mobEmail");
+var $linkEmail = $("");
+var $formPlacement = $(body);
+var getImg = document.getElementById("newImage");
+var $mobImgrefresh = $("#reload").on("click", getdata);
+var showing = false,
+    showEmails = false,
+    active = false;
+var animSpeed = 500;
+var t = window.matchMedia("(max-width: 949px)");
+window.addEventListener("resize", function () {
+  res();
+  reset();
+});
+var $emailForm = $("\n    <div id =\"form\">\n        <h3>Email:</h3> \n        <form name = form1>\n            <input id =\"emailBox\" type=\"text\" name =\"text1\">\n        </form>\n        <button id =\"linkButton\" type = \"button\" onclick=\"validateAndLink(document.form1.text1)\">\n            <span>Link Image</span>\n        </button>\n    </div> \n");
 setTimeout(getdata, 1);
+res();
 getImg.addEventListener("click", getdata);
+
+function res() {
+  if (t.matches) {
+    $sidebar.css("display", "none");
+  } else {
+    $sidebar.css("display", "block");
+  }
+}
+
+function reset() {
+  formReset();
+}
+
+$("#linkToEmail").on("click", function () {
+  if (!showing) {
+    showing = true;
+    $emailForm.appendTo($sidebar);
+    $("#form").addClass("lgscn");
+    $("#form").css({
+      "bottom": "320px"
+    });
+  } else {
+    formReset();
+  }
+});
+
+function formReset() {
+  showing = false;
+  $("#form").removeClass("lgscn");
+  $("#form").removeClass("smscn");
+  setTimeout(function () {
+    $("#form").remove("#form");
+  }, 1);
+}
+
+$("#linkEmail").on("click", function () {
+  if (!showing) {
+    showing = true;
+    $emailForm.appendTo($formPlacement); // bottom: 150px;
+
+    $("#form").addClass("smscn");
+    $("#form").css({
+      "bottom": "150px"
+    });
+    $("#form button").on("click", function () {
+      console.log("clicked"); // $("#linkButton").css({"background-color":"gray"});
+    });
+  } else {
+    showing = false;
+    formReset();
+  }
+});
+$("#viewEmails , #mobEmail").on("click", function () {
+  if (!active) {
+    active = true;
+    $("#viewEmails span").text("Hide linked Emails");
+    loadContent();
+
+    if (t.matches) {
+      $list.css({
+        "display": "block",
+        "width": "320px",
+        "right": "-320px"
+      });
+      $list.animate({
+        right: "0"
+      });
+    } else {
+      $list.css({
+        "display": "block",
+        "width": "320px",
+        "right": "0px"
+      });
+      $list.animate({
+        right: '320px'
+      });
+    }
+  } else {
+    listEmailsReset();
+  }
+});
+
+function listEmailsReset() {
+  active = false;
+  $(".linkedEmails").remove(".linkedEmails");
+  $("#viewEmails span").text("Show linked Emails");
+  $list.animate({
+    right: '-320px'
+  }, animSpeed);
+  setTimeout(function () {
+    $list.css("display", "none");
+  }, animSpeed);
+} //#endregion
+
 /**
  * Validate email
  */
 //#region Email Validation
-
-var showing = false,
-    showEmails = false; // validate and link
+// validate and link
 
 /**
  * Validate the Email address if it is valid, LINK it together and store in an array
  */
+
 
 function validateAndLink(inputText) {
   if (ValidateEmail(inputText)) {
@@ -78,11 +211,8 @@ function validateAndLink(inputText) {
     if (emailInfo.length === 0 && firstemail) {
       firstemail = false;
       savedEmail = email;
-      email = null; // num = 0;
-
-      return createnew(
-      /*num,*/
-      savedEmail);
+      email = null;
+      return createnew(savedEmail);
     }
     /**
      * if this is not the 1st array check to see if there is an array with the same email
@@ -100,7 +230,7 @@ function validateAndLink(inputText) {
         // Change Email info[i][0] to using key pair to match for an email in the 1st array.
         email = null;
         getdata();
-        return emailInfo[i].push(currentImage);
+        return emailInfo[i].push(linkToSave);
       } else {
         j++;
       }
@@ -121,30 +251,12 @@ function validateAndLink(inputText) {
 
 var emailCheck = 1;
 var firstemail = true;
-var emailInfo = [// {email: "EmailAddress1@email.com", link: "link1"},
-  // {email: "EmailAddress2@email.com", link: "link1"},
-  // {email: "EmailAddress3@email.com", link: "link1"}
-]; //test
+var emailInfo = [];
 
-function testing() {
-  var searchEmail = "EmailAddress2@email.com";
-  var filteredEmail = emailInfo.find(function (item) {
-    return item.email === searchEmail;
-  })[0];
-} //test
-
-
-function createnew(
-/*num,*/
-savedEmail) {
-  // emailInfo.push([`id:${num}, email:${savedEmail}, link:${currentImage}`]);
-  emailInfo.push({
-    email: [savedEmail],
-    link: [currentImage]
-  }); // emailCheck = emailInfo.length ;
-
-  getdata(); // convertArrayToObject(emailInfo,'id',);
-  // console.log(convertArrayToObject(emailInfo,'id',),);
+function createnew(savedEmail) {
+  emailInfo.push(["".concat(savedEmail), "".concat(linkToSave)]);
+  emailCheck = emailInfo.length;
+  getdata();
 }
 
 function ValidateEmail(inputText) {
@@ -158,50 +270,45 @@ function ValidateEmail(inputText) {
     document.form1.text1.focus();
     return false;
   }
-}
-
-$("#linkToEmail").on("click", function () {
-  if (!showing) {
-    showing = true;
-    $("#form").css("display", "block");
-  } else {
-    showing = false;
-    $("#form").css("display", "none");
-  }
-});
-$("#viewEmails").on("click", function () {
-  if (!showEmails) {
-    showEmails = true;
-    $("#list").animate({
-      right: '325px'
-    });
-  } else {
-    showEmails = false;
-    $("#list").animate({
-      right: '0px'
-    });
-  }
-}); //#endregion
+} //#endregion
 //#region toHtmlList
 
-function toList() {
-  console.log("To List");
-} //#endregion
 
+function loadContent() {
+  var e = 0;
+  var l = 1;
+  emailInfo.forEach(function () {
+    var newdiv = document.createElement("div");
+    newdiv.setAttribute("class", "linkedEmails");
+    var parentdiv = document.getElementById("allEmails");
+    parentdiv.appendChild(newdiv); // appends the div to HTML
+
+    var h3 = document.createElement("h3");
+    var title = document.createTextNode(emailInfo[e][0]);
+    h3.appendChild(title);
+    newdiv.appendChild(h3);
+    var ul = document.createElement("ul");
+
+    for (var i = 1; i < emailInfo[e].length; i++) {
+      var li = document.createElement("li");
+      var img = document.createElement("img");
+      var imgLink = emailInfo[e][l].toString();
+      imgLink = imgLink + WH[3].toString();
+      img.src = imgLink;
+      li.appendChild(img);
+      ul.appendChild(li);
+      l++;
+    }
+
+    newdiv.appendChild(ul);
+    console.log($(".linkedEmails li").length);
+    l = 1;
+    e++;
+  });
+}
 /**
- * Convert array to objects 
- * https://dev.to/afewminutesofcode/how-to-convert-an-array-into-an-object-in-javascript-25a4#:~:text=To%20convert%20an%20array%20into%20an%20object%20we%20will%20create,key%20we%20have%20passed%20in.
+ * check the li position
  */
-
-
-var convertArrayToObject = function convertArrayToObject(array, key) {
-  var initialValue = {};
-  return array.reduce(function (obj, item) {
-    return _objectSpread(_objectSpread({}, obj), {}, _defineProperty({}, item[key], item));
-  }, initialValue);
-}; // console.log(convertArrayToObject(emailInfo,'id',),);
-
-/**
- * use proxy on object to check it.
- * https://www.javascripttutorial.net/es6/javascript-proxy/
- */
+//#endregion
+//#region Slick
+//#endregion

@@ -17,9 +17,13 @@ $("body").css("margin", "0");
  const WH = [
     ["500/400"],//Large
     ["300/200"],//med
-    ["200/100"] //small
+    ["200"], //small
+    ["50"]
 ]
-let x = 0;
+
+/**
+ * Set the Width and height of large image shown
+ */
 
 
 /**
@@ -31,31 +35,170 @@ const minNo = 1;
 const maxNo = 1085;
 let idNum;
 
-const getImg =document.getElementById("newImage");
+var linkToSave =`https://picsum.photos/id/${idNum}/`;
 
 const getdata = () => {
+    // getSize(size);
+    let size;
+
+    if(t.matches){
+        size = 2;
+     } else{
+        size = 0;
+     }
+
+    setTimeout(() =>{});
     idNum = Math.floor(Math.random() * maxNo); // Get new number
-    currentImage =`https://picsum.photos/id/${idNum}/${WH[x]}`;
+    currentImage =`https://picsum.photos/id/${idNum}/${WH[size]}`;
+    linkToSave =`https://picsum.photos/id/${idNum}/`;
+
     axios.get(currentImage)
     .then( () =>{
-        $("#image").css("background-image",`url(https://picsum.photos/id/${idNum}/${WH[x]})`);
+        $("#image").css("background-image",`url(https://picsum.photos/id/${idNum}/${WH[size]})`);
     })
+    .catch( () => {
+        console.log(`cannot get ${currentImage} Error here`);
+        getdata();
+    });
 }
 //#endregion
 
 /**
+ * Change Image Display size 
+ */
+
+ 
+
+/**
  * Start
  */
- setTimeout(getdata,1);
+//#region Interactivity
+var $list =$("#list");
+var $sidebar =$("#sidebar");
+var $mobEmail =$("#mobEmail");
+var $linkEmail =$("");
+var $formPlacement = $(body);
+const getImg =document.getElementById("newImage");
+var $mobImgrefresh = $("#reload").on("click",getdata);
+
+var showing = false, showEmails = false, active = false;
+var animSpeed = 500;
+
+const t = window.matchMedia("(max-width: 949px)")
+
+window.addEventListener("resize",() =>{
+    res();
+    reset();
+});
+
+ var $emailForm = $( `
+    <div id ="form">
+        <h3>Email:</h3> 
+        <form name = form1>
+            <input id ="emailBox" type="text" name ="text1">
+        </form>
+        <button id ="linkButton" type = "button" onclick="validateAndLink(document.form1.text1)">
+            <span>Link Image</span>
+        </button>
+    </div> 
+`);
+
+setTimeout(getdata,1);
+res();
 
 getImg.addEventListener("click", getdata);
+
+function res() {
+    if (t.matches) { 
+        $sidebar.css("display","none");
+
+    } else {
+        $sidebar.css("display","block");
+    }
+}
+function reset(){
+    formReset();
+}
+
+$("#linkToEmail").on("click",()=>{
+    if(!showing){
+        showing = true;
+        $emailForm.appendTo($sidebar);
+        $("#form").addClass("lgscn");
+        $("#form").css({"bottom":"320px"});
+    }else{
+        formReset();
+    }
+});
+function formReset(){
+        showing = false;
+        $("#form").removeClass("lgscn");
+        $("#form").removeClass("smscn");
+        setTimeout(()=>{
+            $("#form").remove("#form");
+        },1);
+     
+}
+
+$("#linkEmail").on("click",()=>{
+    if(!showing){
+        showing = true;
+        $emailForm.appendTo($formPlacement);
+    // bottom: 150px;
+        $("#form").addClass("smscn");
+        $("#form").css({"bottom":"150px"});
+        $("#form button").on("click",() => {
+            console.log("clicked");
+            // $("#linkButton").css({"background-color":"gray"});
+        })
+    }else{
+        showing = false;
+        formReset();
+    }
+});
+
+
+
+$("#viewEmails , #mobEmail").on("click", () => {
+    if(!active){
+        active = true;
+        $("#viewEmails span").text("Hide linked Emails");
+
+        loadContent();
+        
+
+        if(t.matches){
+            $list.css({"display":"block","width":"320px","right":"-320px"});
+            $list.animate({right:"0"});
+        }
+        else{
+            $list.css({"display":"block", "width":"320px" ,"right": "0px"});
+            $list.animate({right:'320px'});
+        }
+    }else{
+       listEmailsReset();
+    }
+});
+
+function listEmailsReset(){
+    active=false;
+    $(".linkedEmails").remove(".linkedEmails");
+    $("#viewEmails span").text("Show linked Emails");
+
+    $list.animate({right:'-320px'},animSpeed);
+    setTimeout(()=>{
+        $list.css("display","none");
+    },animSpeed);  
+}
+
+
+//#endregion
 
 /**
  * Validate email
  */
 //#region Email Validation
 
-var showing = false, showEmails = false;
 
 // validate and link
 /**
@@ -93,8 +236,10 @@ function validateAndLink(inputText){
 
                 email = null;
                 getdata();
-                return emailInfo[i].push(currentImage);
-            }else { j++; }
+                return emailInfo[i].push(linkToSave);
+            }else{
+                j++;
+            }
 
             if(emailInfo.length === j ){
                 savedEmail = email;
@@ -108,24 +253,11 @@ function validateAndLink(inputText){
 var emailCheck = 1;
 var firstemail = true;
 
-var emailInfo  =[
-    // {email: "EmailAddress1@email.com", link: "link1"},
-    // {email: "EmailAddress2@email.com", link: "link1"},
-    // {email: "EmailAddress3@email.com", link: "link1"}
+var emailInfo = [];
 
-];
-//test
-function testing(){
-    var searchEmail = "EmailAddress2@email.com";
-    var filteredEmail = emailInfo.find(function(item){
-        return item.email === searchEmail;
-    })[0];
-}
-//test
-
-function createnew(/*num,*/ savedEmail){
-    emailInfo.push(savedEmail, currentImage);
-    // emailInfo.push({email:[savedEmail],link:[currentImage]});//future iteration
+function createnew(savedEmail){
+    emailInfo.push([`${savedEmail}`,`${linkToSave}`]);
+    emailCheck = emailInfo.length ;
     getdata();
 }
 
@@ -142,51 +274,50 @@ function ValidateEmail(inputText){
     }
 }
 
-$("#linkToEmail").on("click",()=>{
-    if(!showing){
-        showing = true;
-        $("#form").css("display","block");
-    }else{
-        showing = false;
-        $("#form").css("display","none");
-    }
-});
-
-$("#viewEmails").on("click", () => {
-    if(!showEmails){
-        showEmails = true;
-        $("#list").animate({right:'325px'});
-    }else{
-        showEmails = false;
-        $("#list").animate({right:'0px'});
-    }
-});
 
 //#endregion
 
 //#region toHtmlList
 
-function toList(){
-    console.log("To List");
+function loadContent(){
+    var e =0;
+    var l = 1;   
+
+    emailInfo.forEach(() => {
+        var newdiv = document.createElement("div");
+        newdiv.setAttribute("class","linkedEmails");
+        var parentdiv = document.getElementById("allEmails");
+        parentdiv.appendChild(newdiv); // appends the div to HTML
+
+        var h3 = document.createElement("h3");
+        var title = document.createTextNode(emailInfo[e][0]);
+
+        h3.appendChild(title);
+        newdiv.appendChild(h3);
+
+        var ul = document.createElement("ul");    
+        for (let i = 1; i < emailInfo[e].length; i++) {
+            var li = document.createElement("li");
+           
+            var img = document.createElement("img");
+            var imgLink = emailInfo[e][l].toString();
+            imgLink = imgLink + WH[3].toString();
+            img.src = imgLink;
+            
+            li.appendChild(img);
+            ul.appendChild(li);
+            l++;
+        }
+        newdiv.appendChild(ul);
+        console.log( $(".linkedEmails li").length)
+        l=1;
+        e++;
+    });
 }
+
+/**
+ * check the li position
+ */
 //#endregion
-
-/**
- * Convert array to objects 
- * https://dev.to/afewminutesofcode/how-to-convert-an-array-into-an-object-in-javascript-25a4#:~:text=To%20convert%20an%20array%20into%20an%20object%20we%20will%20create,key%20we%20have%20passed%20in.
- */
-const convertArrayToObject = (array, key) =>{
-    const initialValue = {};
-    return array.reduce((obj,item)=>{
-        return{
-            ...obj,
-            [item[key]]:item,
-        };
-    },initialValue);
-};
-
-// console.log(convertArrayToObject(emailInfo,'id',),);
-/**
- * use proxy on object to check it.
- * https://www.javascripttutorial.net/es6/javascript-proxy/
- */
+//#region Slick
+//#endregion
