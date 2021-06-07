@@ -26,3 +26,4 @@ https://youtu.be/LYbt50dhTko
 [ x ] Add in Axios Polyfill
 [  ] Make sure that code runs in IE
 [ ] View emails stops opening when going between small and large
+[ ] work out spam clicking issue

@@ -28,8 +28,7 @@ body {
 #list {
   display: none;
   position: fixed;
-  right: 0;
-  width: 325px;
+  width: 320px;
   height: 90%;
   background-color: #bac1b8;
   border-left: 3px solid black; }
@@ -46,19 +45,27 @@ body {
     font-size: 16px;
     font-weight: 700; }
   #allEmails .linkedEmails {
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
-    border-left: 3px solid black;
+    margin-top: 15px;
+    border: 3px solid black;
     outline: 1px solid lightgrey;
     background-color: grey; }
     #allEmails .linkedEmails ul {
-      display: inline-flex; }
+      display: flex;
+      flex-wrap: wrap;
+      margin: 10px auto;
+      padding-left: 30px; }
       #allEmails .linkedEmails ul li {
-        margin-right: 20px;
-        margin-left: 10px;
+        margin: 5px 10px;
         list-style: none; }
         #allEmails .linkedEmails ul li img {
-          border-radius: 50%; }
+          border-radius: 50%;
+          border: 1px solid black; }
+          #allEmails .linkedEmails ul li img:hover {
+            opacity: 0.8;
+            border: 1px solid white;
+            box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.48);
+            -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.48);
+            -moz-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.48); }
   #allEmails .linkedImages {
     padding: 0;
     margin: 10px; }
@@ -99,39 +106,35 @@ body {
   border: 3px solid slategrey;
   border-radius: 10%;
   width: 280px;
-  position: absolute; }
+  height: 175px;
+  position: fixed; }
   #form #emailBox {
     width: 90%;
     height: 35px;
     font-size: 16px;
-    margin: 25px 10px; }
+    margin: 0 10px 15px; }
   #form button {
     margin: 0 45px 25px; }
-  #form label {
-    margin-top: 20px; }
+  #form h3 {
+    font-family: 'Padauk', sans-serif;
+    margin: 10px; }
 
 .lgscn {
-  top: 43.5%;
-  left: 15px; }
+  top: 63.5%;
+  right: 15px; }
   .lgscn ::before {
     content: " ";
     position: absolute;
-    top: -33%;
+    top: -35%;
     right: 40%;
     border-width: 30px;
     border-style: solid;
     border-color: transparent transparent slategrey transparent; }
 
 .smscn {
-  left: 15px; }
+  right: 5%; }
   .smscn ::before {
-    content: " ";
-    position: absolute;
-    bottom: -41%;
-    right: 40%;
-    border-width: 30px;
-    border-style: solid;
-    border-color: slategrey transparent transparent  transparent; }
+    content: " "; }
 
 #shownImage {
   width: 85%;
@@ -142,7 +145,7 @@ body {
     height: 100%;
     background-color: #2b303a;
     margin: 75px auto 0;
-    border-radius: 15%;
+    border-radius: 50px;
     border: 3px solid darkgrey;
     -webkit-box-shadow: 0px 0px 30px 3px #0c7c59;
     box-shadow: 0px 0px 30px 3px #0c7c59;
@@ -170,6 +173,10 @@ body {
     background-color: #d64933;
     border: 2px solid black;
     border-radius: 15%; }
+    #mobileMenu button:first-of-type {
+      margin-left: auto; }
+    #mobileMenu button:last-of-type {
+      margin-right: auto; }
     #mobileMenu button:hover {
       background-color: #c73e28; }
     #mobileMenu button:active {
@@ -185,11 +192,10 @@ body {
     content: "\f0c1"; }
   #mobileMenu #mobEmail::before {
     content: "\f0e0"; }
-
-#mobButtons {
-  width: 250px;
-  display: inline-flex;
-  margin: 5px 10%; }
+  #mobileMenu #mobButtons {
+    width: 100%;
+    display: inline-flex;
+    margin: 10px auto; }
 
 @media (min-width: 950px) {
   #mobileMenu {

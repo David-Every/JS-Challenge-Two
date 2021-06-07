@@ -23,7 +23,6 @@ $("body").css("margin", "0");
     ["300/200"],//med
     ["200"], //small
     ["50"]
-
 ]
 
 /**
@@ -63,7 +62,7 @@ const getdata = () => {
     })
     .catch( () => {
         console.log(`cannot get ${currentImage} Error here`);
-        // getdata();
+        getdata();
     });
 }
 //#endregion
@@ -97,12 +96,12 @@ window.addEventListener("resize",() =>{
 });
 
  var $emailForm = $( `
-    <div id ="form"> 
+    <div id ="form">
+        <h3>Email:</h3> 
         <form name = form1>
-            <label for ="emailBox" >Email:</label>  
             <input id ="emailBox" type="text" name ="text1">
         </form>
-        <button type = "button" onclick="validateAndLink(document.form1.text1)">
+        <button id ="linkButton" type = "button" onclick="validateAndLink(document.form1.text1)">
             <span>Link Image</span>
         </button>
     </div> 
@@ -111,13 +110,10 @@ window.addEventListener("resize",() =>{
 setTimeout(getdata,1);
 res();
 
-
-
 getImg.addEventListener("click", getdata);
 
 function res() {
     if (t.matches) { 
-    //    listEmailsReset();
         $sidebar.css("display","none");
 
     } else {
@@ -125,13 +121,6 @@ function res() {
     }
 }
 function reset(){
-    // console.log("Working")
-    /**
-     * This will get the site to close everything and reset it all to default
-     */
-    // positioning of sidebar
-    // positioning of email section
-    // listEmailsReset(); // Only needs to be called once
     formReset();
 }
 
@@ -162,29 +151,34 @@ $("#linkEmail").on("click",()=>{
     // bottom: 150px;
         $("#form").addClass("smscn");
         $("#form").css({"bottom":"150px"});
+        $("#form button").on("click",() => {
+            console.log("clicked");
+            // $("#linkButton").css({"background-color":"gray"});
+        })
     }else{
         showing = false;
         formReset();
     }
 });
 
-$("#viewEmails").on("click", () => {
+
+
+$("#viewEmails , #mobEmail").on("click", () => {
     if(!active){
         active = true;
-        loadContent();
-        $list.animate({right:'325px'});
-        $list.css("display","block");
-    }else{
-       listEmailsReset();
-    }
-});
+        $("#viewEmails span").text("Hide linked Emails");
 
-$("#mobEmail").on("click",() => {
-    if(!active){
-        active=true;
         loadContent();
-        $list.css({"display":"block","width":"100%","right":"-100%"});
-        $list.animate({left:'-3px'},animSpeed);
+        
+
+        if(t.matches){
+            $list.css({"display":"block","width":"320px","right":"-320px"});
+            $list.animate({right:"0"});
+        }
+        else{
+            $list.css({"display":"block", "width":"320px" ,"right": "0px"});
+            $list.animate({right:'320px'});
+        }
     }else{
        listEmailsReset();
     }
@@ -193,21 +187,12 @@ $("#mobEmail").on("click",() => {
 function listEmailsReset(){
     active=false;
     $(".linkedEmails").remove(".linkedEmails");
+    $("#viewEmails span").text("Show linked Emails");
 
-    if(t.matches){
-        $list.animate({left:'100%'},animSpeed);
-        setTimeout(()=>{
-            $list.css({"display":"none","width":"325px"});
-    
-        },animSpeed);
-
-    }else{
-        $list.animate({right:'0px'});
-        setTimeout(()=>{
-            $list.css("display","none");
-        },animSpeed);
-    }
-    
+    $list.animate({right:'-320px'},animSpeed);
+    setTimeout(()=>{
+        $list.css("display","none");
+    },animSpeed);  
 }
 
 
@@ -310,13 +295,9 @@ function loadContent(){
 
         var ul = document.createElement("ul");    
         for (let i = 1; i < emailInfo[e].length; i++) {
-            if(emailInfo[e].length > 3){
-                console.log("Greater then 3");
-                var carousel = document.createElement("div");
-                carousel.setAttribute("class","slick");
-            }
             var li = document.createElement("li");
-            var img = document.createElement("img")
+           
+            var img = document.createElement("img");
             var imgLink = emailInfo[e][l].toString();
             imgLink = imgLink + WH[3].toString();
             img.src = imgLink;
@@ -326,8 +307,15 @@ function loadContent(){
             l++;
         }
         newdiv.appendChild(ul);
+        console.log( $(".linkedEmails li").length)
         l=1;
         e++;
     });
 }
+
+/**
+ * check the li position
+ */
+//#endregion
+//#region Slick
 //#endregion

@@ -23,8 +23,6 @@ var WH = [["500/400"], //Large
 /**
  * Set the Width and height of large image shown
  */
-// function getSize(size){
-// }
 
 /**
  * Axios
@@ -56,7 +54,8 @@ var getdata = function getdata() {
   axios.get(currentImage).then(function () {
     $("#image").css("background-image", "url(https://picsum.photos/id/".concat(idNum, "/").concat(WH[size], ")"));
   })["catch"](function () {
-    console.log("cannot get ".concat(currentImage, " Error here")); // getdata();
+    console.log("cannot get ".concat(currentImage, " Error here"));
+    getdata();
   });
 }; //#endregion
 
@@ -86,14 +85,13 @@ window.addEventListener("resize", function () {
   res();
   reset();
 });
-var $emailForm = $("\n    <div id =\"form\"> \n        <form name = form1>\n            <label for =\"emailBox\" >Email:</label>  \n            <input id =\"emailBox\" type=\"text\" name =\"text1\">\n        </form>\n        <button type = \"button\" onclick=\"validateAndLink(document.form1.text1)\">\n            <span>Link Image</span>\n        </button>\n    </div> \n");
+var $emailForm = $("\n    <div id =\"form\">\n        <h3>Email:</h3> \n        <form name = form1>\n            <input id =\"emailBox\" type=\"text\" name =\"text1\">\n        </form>\n        <button id =\"linkButton\" type = \"button\" onclick=\"validateAndLink(document.form1.text1)\">\n            <span>Link Image</span>\n        </button>\n    </div> \n");
 setTimeout(getdata, 1);
 res();
 getImg.addEventListener("click", getdata);
 
 function res() {
   if (t.matches) {
-    //    listEmailsReset();
     $sidebar.css("display", "none");
   } else {
     $sidebar.css("display", "block");
@@ -101,14 +99,6 @@ function res() {
 }
 
 function reset() {
-  // console.log("Working")
-
-  /**
-   * This will get the site to close everything and reset it all to default
-   */
-  // positioning of sidebar
-  // positioning of email section
-  // listEmailsReset(); // Only needs to be called once
   formReset();
 }
 
@@ -143,35 +133,39 @@ $("#linkEmail").on("click", function () {
     $("#form").css({
       "bottom": "150px"
     });
+    $("#form button").on("click", function () {
+      console.log("clicked"); // $("#linkButton").css({"background-color":"gray"});
+    });
   } else {
     showing = false;
     formReset();
   }
 });
-$("#viewEmails").on("click", function () {
+$("#viewEmails , #mobEmail").on("click", function () {
   if (!active) {
     active = true;
+    $("#viewEmails span").text("Hide linked Emails");
     loadContent();
-    $list.animate({
-      right: '325px'
-    });
-    $list.css("display", "block");
-  } else {
-    listEmailsReset();
-  }
-});
-$("#mobEmail").on("click", function () {
-  if (!active) {
-    active = true;
-    loadContent();
-    $list.css({
-      "display": "block",
-      "width": "100%",
-      "right": "-100%"
-    });
-    $list.animate({
-      left: '-3px'
-    }, animSpeed);
+
+    if (t.matches) {
+      $list.css({
+        "display": "block",
+        "width": "320px",
+        "right": "-320px"
+      });
+      $list.animate({
+        right: "0"
+      });
+    } else {
+      $list.css({
+        "display": "block",
+        "width": "320px",
+        "right": "0px"
+      });
+      $list.animate({
+        right: '320px'
+      });
+    }
   } else {
     listEmailsReset();
   }
@@ -180,25 +174,13 @@ $("#mobEmail").on("click", function () {
 function listEmailsReset() {
   active = false;
   $(".linkedEmails").remove(".linkedEmails");
-
-  if (t.matches) {
-    $list.animate({
-      left: '100%'
-    }, animSpeed);
-    setTimeout(function () {
-      $list.css({
-        "display": "none",
-        "width": "325px"
-      });
-    }, animSpeed);
-  } else {
-    $list.animate({
-      right: '0px'
-    });
-    setTimeout(function () {
-      $list.css("display", "none");
-    }, animSpeed);
-  }
+  $("#viewEmails span").text("Show linked Emails");
+  $list.animate({
+    right: '-320px'
+  }, animSpeed);
+  setTimeout(function () {
+    $list.css("display", "none");
+  }, animSpeed);
 } //#endregion
 
 /**
@@ -298,12 +280,6 @@ function loadContent() {
     var ul = document.createElement("ul");
 
     for (var i = 1; i < emailInfo[e].length; i++) {
-      if (emailInfo[e].length > 3) {
-        console.log("Greater then 3");
-        var carousel = document.createElement("div");
-        carousel.setAttribute("class", "slick");
-      }
-
       var li = document.createElement("li");
       var img = document.createElement("img");
       var imgLink = emailInfo[e][l].toString();
@@ -315,7 +291,14 @@ function loadContent() {
     }
 
     newdiv.appendChild(ul);
+    console.log($(".linkedEmails li").length);
     l = 1;
     e++;
   });
-} //#endregion
+}
+/**
+ * check the li position
+ */
+//#endregion
+//#region Slick
+//#endregion
