@@ -20,10 +20,10 @@ https://youtu.be/LYbt50dhTko
 [ ] Issue when changing screensize it makes it so that the email view stops working without refreshing
     [ x ] Try adding in a boolean to make sure it cannot be ran again whilst already running
 [ x ] Fix issue with emaillinking when on fullscreen?
-[ ] Fix Issue with image being too big on small screen.
-[  ] Need to make Images change with size.
-[ ] Detect IE in code to run es5
+[ x ] Fix Issue with image being too big on small screen.
+[ x ] Need to make Images change with size.
+[ x ] Detect IE in code to run es5
 [ x ] Add in Axios Polyfill
-[  ] Make sure that code runs in IE
-[ ] View emails stops opening when going between small and large
-[ ] work out spam clicking issue
+[ x ] Make sure that code runs in IE
+[ x ] View emails stops opening when going between small and large
+[ x ] work out spam clicking issue

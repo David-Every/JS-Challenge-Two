@@ -57,7 +57,6 @@ const getdata = () => {
         $("#image").css("background-image",`url(https://picsum.photos/id/${idNum}/${WH[size]})`);
     })
     .catch( () => {
-        console.log(`cannot get ${currentImage} Error here`);
         getdata();
     });
 }
@@ -147,10 +146,6 @@ $("#linkEmail").on("click",()=>{
     // bottom: 150px;
         $("#form").addClass("smscn");
         $("#form").css({"bottom":"150px"});
-        $("#form button").on("click",() => {
-            console.log("clicked");
-            // $("#linkButton").css({"background-color":"gray"});
-        })
     }else{
         showing = false;
         formReset();
@@ -228,9 +223,6 @@ function validateAndLink(inputText){
         
 
         for (let i = 0; i < emailInfo.length; i++) {
-            console.log(`%c email is ${email}`,"color:lightblue");
-            console.log(`%c array data emails ${emailInfo[i]["email"]} and matches email is ${email}`,"color:green");
-
             // if(emailInfo[i]["email"].match(email)){ // Change Email info[i][0] to using key pair to match for an email in the 1st array.
             if(emailInfo[i][0].match(email)){ // Change Email info[i][0] to using key pair to match for an email in the 1st array.
 
@@ -309,7 +301,6 @@ function loadContent(){
             l++;
         }
         newdiv.appendChild(ul);
-        console.log( $(".linkedEmails li").length)
         l=1;
         e++;
     });

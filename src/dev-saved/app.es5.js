@@ -1,11 +1,5 @@
 "use strict";
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /**
  * Number Randomiser and getting image (Update to promise / Axios)
  */
@@ -58,7 +52,6 @@ var getdata = function getdata() {
   axios.get(currentImage).then(function () {
     $("#image").css("background-image", "url(https://picsum.photos/id/".concat(idNum, "/").concat(WH[size], ")"));
   })["catch"](function () {
-    console.log("cannot get ".concat(currentImage, " Error here"));
     getdata();
   });
 }; //#endregion
@@ -137,9 +130,6 @@ $("#linkEmail").on("click", function () {
     $("#form").css({
       "bottom": "150px"
     });
-    $("#form button").on("click", function () {
-      console.log("clicked"); // $("#linkButton").css({"background-color":"gray"});
-    });
   } else {
     showing = false;
     formReset();
@@ -211,8 +201,11 @@ function validateAndLink(inputText) {
     if (emailInfo.length === 0 && firstemail) {
       firstemail = false;
       savedEmail = email;
-      email = null;
-      return createnew(savedEmail);
+      email = null; // num = 0;
+
+      return createnew(
+      /*num,*/
+      savedEmail);
     }
     /**
      * if this is not the 1st array check to see if there is an array with the same email
@@ -223,9 +216,7 @@ function validateAndLink(inputText) {
 
 
     for (var i = 0; i < emailInfo.length; i++) {
-      console.log("%c email is ".concat(email), "color:lightblue");
-      console.log("%c array data emails ".concat(emailInfo[i]["email"], " and matches email is ").concat(email), "color:green"); // if(emailInfo[i]["email"].match(email)){ // Change Email info[i][0] to using key pair to match for an email in the 1st array.
-
+      // if(emailInfo[i]["email"].match(email)){ // Change Email info[i][0] to using key pair to match for an email in the 1st array.
       if (emailInfo[i][0].match(email)) {
         // Change Email info[i][0] to using key pair to match for an email in the 1st array.
         email = null;
@@ -301,7 +292,6 @@ function loadContent() {
     }
 
     newdiv.appendChild(ul);
-    console.log($(".linkedEmails li").length);
     l = 1;
     e++;
   });
