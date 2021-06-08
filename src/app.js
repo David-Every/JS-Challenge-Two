@@ -15,9 +15,9 @@ $("body").css("margin", "0");
  *      - reload Image
  */
  const WH = [
-    ["500/400"],//Large
-    ["300/200"],//med
-    ["200"], //small
+    ["600/500"],//Large
+    ["500/500"],//med
+    ["300/400"], //small
     ["50"]
 ]
 
@@ -43,7 +43,10 @@ const getdata = () => {
 
     if(t.matches){
         size = 2;
-     } else{
+     }
+     else if(m.matches){
+        size = 1;
+     }else{
         size = 0;
      }
 
@@ -83,7 +86,8 @@ var $mobImgrefresh = $("#reload").on("click",getdata);
 var showing = false, showEmails = false, active = false;
 var animSpeed = 500;
 
-const t = window.matchMedia("(max-width: 949px)")
+const t = window.matchMedia("(max-width: 949px)");
+const m = window.matchMedia("max-width:1400px");
 
 window.addEventListener("resize",() =>{
     res();

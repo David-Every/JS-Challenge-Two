@@ -14,9 +14,9 @@ $("body").css("margin", "0");
  *      - reload Image
  */
 
-var WH = [["500/400"], //Large
-["300/200"], //med
-["200"], //small
+var WH = [["600/500"], //Large
+["500/500"], //med
+["300/400"], //small
 ["50"]];
 /**
  * Set the Width and height of large image shown
@@ -40,6 +40,8 @@ var getdata = function getdata() {
 
   if (t.matches) {
     size = 2;
+  } else if (m.matches) {
+    size = 1;
   } else {
     size = 0;
   }
@@ -78,6 +80,7 @@ var showing = false,
     active = false;
 var animSpeed = 500;
 var t = window.matchMedia("(max-width: 949px)");
+var m = window.matchMedia("max-width:1400px");
 window.addEventListener("resize", function () {
   res();
   reset();
